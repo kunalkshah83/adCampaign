@@ -20,6 +20,14 @@ public class AdCampaignController {
 	@Autowired
 	private AdCampaignDao dao;
 
+	public AdCampaignDao getDao() {
+		return dao;
+	}
+
+	public void setDao(AdCampaignDao dao) {
+		this.dao = dao;
+	}
+
 	@POST
 	@RequestMapping("/ad")
 	public Result createAdCampaign(@RequestBody AdCampaign camp) {
