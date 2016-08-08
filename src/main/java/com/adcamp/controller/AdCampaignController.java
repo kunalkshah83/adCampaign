@@ -3,6 +3,7 @@ package com.adcamp.controller;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,16 +29,16 @@ public class AdCampaignController {
 		this.dao = dao;
 	}
 
+	private static final Logger logger = Logger.getLogger(AdCampaignController.class);
+
+	
 	@POST
 	@RequestMapping("/ad")
 	public Result createAdCampaign(@RequestBody AdCampaign camp) {
 
 		Result campResult = new Result();
-
-		System.out.println("Creating add for Partner ID :  " + camp.getPartnerId() + ", Duration : "
-				+ camp.getDuration() + ", Content: " + camp.getAdContent());
-
-		// TODO: Validate
+ 		logger.info("Creating add for Partner ID :  [" + camp.getPartnerId() + "], Duration : ["+ camp.getDuration() + "], Content: [" + camp.getAdContent()+"]");
+		
 		if (dao.isCampaignActive(camp.getPartnerId())) {
 			campResult
 					.setMessage("Sorry an active campaign for partner ID " + camp.getPartnerId() + " already exists.");
@@ -55,11 +56,8 @@ public class AdCampaignController {
 	@RequestMapping("/ad/{partnerId}")
 	public AdCampaign getCampaign(@PathVariable String partnerId) throws AdCampaignException {
 
-		System.out.println("Retrieving Campaign for " + partnerId);
-		// TODO : Retrieve ad campaign based on partner ID
-
-		// TODO: Creating mock camp obj
-
+		logger.info("Retrieving Campaign for " + partnerId);
+		
 		AdCampaign camp = dao.getCampaign(partnerId);
 		if (camp == null || !dao.isCampaignActive(partnerId)) {
 			throw new AdCampaignException("No active Campaigns exist for given partener ID : " + partnerId);

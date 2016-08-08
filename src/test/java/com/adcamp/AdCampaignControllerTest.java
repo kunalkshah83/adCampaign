@@ -32,4 +32,14 @@ public class AdCampaignControllerTest {
 		Assert.assertEquals(10000, createdCmp.getDuration());
 	}
 	
+	@Test
+	public void testgetCampaign(){
+		
+		AdCampaign camp = cmpDao.getCampaign("P345");
+		Assert.assertNotNull(camp);
+		
+		Assert.assertTrue(cmpDao.isCampaignActive("P345"));
+		
+	}
+	
 }
